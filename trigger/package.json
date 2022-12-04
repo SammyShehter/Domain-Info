@@ -1,0 +1,21 @@
+{
+    "name": "trigger",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "tsc && MONGO_CONNECTION_STRING=mongodb://sammy:123456@localhost:27017 node app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "mongoose": "^6.7.4",
+        "node-cron": "^3.0.2",
+        "whois": "^2.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.11.10",
+        "@types/node-cron": "^3.0.6"
+    }
+}
