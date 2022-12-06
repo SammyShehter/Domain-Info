@@ -46,4 +46,11 @@ export class ErrorCodes {
             innerMessage: "Domain is shut down or inactive",
         }
     }
+
+    static CALL_TO_VIRUS_TOTAL_FAILED(errorMessage: string): userErrorMessage {
+        return {
+            message: ErrorCodes.GENERAL_ERROR.message,
+            innerMessage: errorMessage
+        }
+    }
 }

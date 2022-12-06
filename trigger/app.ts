@@ -3,7 +3,7 @@ import cron from "node-cron"
 import {EventEmitter} from "stream"
 import MongooseService from "./mongo"
 import {configJson} from "./types"
-import {virusTotal} from "./virusTotal"
+import {virusTotalData} from "./virusTotal"
 import {whoisData} from "./whois"
 
 // init events
@@ -19,15 +19,27 @@ const gainDomainInfo = async (db: MongooseService): Promise<void> => {
     if (!data.length) return
 
     for await (const item of data) {
-        item.info.Whois = await whoisData(item)
-        item.info.VirusTotal = await virusTotal(item)
+        const [whois, virusTotal] = await Promise.all([
+            whoisData(item),
+            virusTotalData(item),
+        ])
+        if (!virusTotal) return
+
+        item.info.Whois = whois
+        item.info.VirusTotal = virusTotal.data
         item.checked = true
-        await db.updatedDomain(item)  
+        await db.updatedDomain(item)
     }
-    console.log(new Date().toLocaleString(), "\nDomain info gathering is DONE!\n")
+    console.log(
+        new Date().toLocaleString(),
+        "\nDomain info gathering is DONE!\n"
+    )
 }
 
-const startCron = (cronTask: string, db: MongooseService): cron.ScheduledTask => {
+const startCron = (
+    cronTask: string,
+    db: MongooseService
+): cron.ScheduledTask => {
     return cron.schedule(cronTask, () => gainDomainInfo(db))
 }
 

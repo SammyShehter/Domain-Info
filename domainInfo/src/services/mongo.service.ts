@@ -61,11 +61,7 @@ class MongooseService {
     domainsStorage = mongoose.model<domain>("domainInfo", this.domainSchema)
 
     addDomain = async (data: domainInsert): Promise<domain> => {
-        return this.domainsStorage.create({
-            domain: data.domain,
-            originalDomain: data.originalDomain,
-            addresses: data.addresses,
-        })
+        return this.domainsStorage.create({...data})
     }
 
     checkIfDomainExists = async (domain: string): Promise<domain | null> => {

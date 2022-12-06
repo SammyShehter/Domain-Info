@@ -2,12 +2,13 @@ import {Schema} from "mongoose"
 
 export type domainInsert = {
     domain: string
+    info: domainInfo
     originalDomain: string
     addresses: Array<addresses>
 }
 
 export type domainInfo = {
-    VirusTotal: any //TODO add type
+    VirusTotal: any
     Whois: string
 }
 

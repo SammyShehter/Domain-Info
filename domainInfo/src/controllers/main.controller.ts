@@ -22,7 +22,12 @@ class MainController {
     addDomain = async (req: Request, res: Response) => {
         try {
             const {domain, addresses, originalDomain} = req.data
-            await MainService.addDomain({domain, originalDomain, addresses})
+            await MainService.addDomain({
+                domain,
+                originalDomain,
+                addresses,
+                info: {VirusTotal: "", Whois: ""},
+            })
             return handleSuccess(
                 {message: `Domain added successfully under name: ${domain}`},
                 res
